@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="38">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"Run Before PS3D logs in properlty"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : PixelStrike3D.exe
+  Version: 
+  Date   : 2022-06-25
+  Author : yeemi
+
+  This script does blah blah blah
+}
+
+define(address,"GameAssembly.dll"+2E99410)
+define(bytes,48 89 5C 24 18)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000,"GameAssembly.dll"+2E99410)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  ret
+  jmp return
+
+address:
+  jmp newmem
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // mov [rsp+18],rbx
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: BannedMenu.show
+
+GameAssembly.dll+2E99406: 5B                    - pop rbx
+GameAssembly.dll+2E99407: C3                    - ret 
+GameAssembly.dll+2E99408: CC                    - int 3 
+GameAssembly.dll+2E99409: CC                    - int 3 
+GameAssembly.dll+2E9940A: CC                    - int 3 
+GameAssembly.dll+2E9940B: CC                    - int 3 
+GameAssembly.dll+2E9940C: CC                    - int 3 
+GameAssembly.dll+2E9940D: CC                    - int 3 
+GameAssembly.dll+2E9940E: CC                    - int 3 
+GameAssembly.dll+2E9940F: CC                    - int 3 
+// ---------- INJECTING HERE ----------
+BannedMenu.show: 48 89 5C 24 18        - mov [rsp+18],rbx
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+2E99415: 55                    - push rbp
+GameAssembly.dll+2E99416: 56                    - push rsi
+GameAssembly.dll+2E99417: 57                    - push rdi
+GameAssembly.dll+2E99418: 48 83 EC 20           - sub rsp,20
+GameAssembly.dll+2E9941C: 80 3D E8 8C A7 03 00  - cmp byte ptr [GameAssembly.dll+691210B],00
+GameAssembly.dll+2E99423: 41 8B F0              - mov esi,r8d
+GameAssembly.dll+2E99426: 48 8B EA              - mov rbp,rdx
+GameAssembly.dll+2E99429: 48 8B F9              - mov rdi,rcx
+GameAssembly.dll+2E9942C: 75 73                 - jne GameAssembly.dll+2E994A1
+GameAssembly.dll+2E9942E: 48 8D 0D F3 F2 90 03  - lea rcx,[GameAssembly.dll+67A8728]
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>
